@@ -1,0 +1,24 @@
+.time-progress-bar {
+
+}
+
+.unity-progress-bar__container{
+	height: 32px;
+}
+
+.unity-progress-bar__background{
+	background-color: #8991ea;
+	border-radius: 18px;
+	padding: 0;
+	margin: 0;
+	min-height: 36px;
+	height: 100%;
+}
+
+.unity-progress-bar__progress{
+	background-color: #484592;
+	border-radius: 18px;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+}
