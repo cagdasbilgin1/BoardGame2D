@@ -56,8 +56,6 @@ public class LabelAutoFit : Label
 
     private void UpdateFontSize()
     {
-        Debug.Log("update font size");
-
         Vector2 textSize = MeasureTextSize(text, float.MaxValue, MeasureMode.AtMost, float.MaxValue, MeasureMode.AtMost);
         float fontSize = Mathf.Max(style.fontSize.value.value, 1); // Unity can return a font size of 0 which would break the auto fit // Should probably wait till the end of frame to get the real font size
         float heightDictatedFontSize = Mathf.Abs(contentRect.height);

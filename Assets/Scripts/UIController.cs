@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -64,6 +65,14 @@ public class UIController : MonoBehaviour
     VisualElement settingsGrid4Selected;
     VisualElement settingsGrid6Selected;
 
+    ProgressBar gameProgressBar;
+    Label gameProgressBarTimer;
+
+    int progressBarFillTime;
+    float progressBarFillSpeed;
+    float progressBarRemainingTime;
+    bool isProgressBarFilling;
+
     void Awake()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
@@ -109,6 +118,8 @@ public class UIController : MonoBehaviour
         gamePlayer2AvatarBack = gamePanel.Q<VisualElement>("Player2-Avatar-Back");
         gamePlayer1Label = gamePanel.Q<Label>("Player1-Label");
         gamePlayer2Label = gamePanel.Q<Label>("Player2-Label");
+        gameProgressBar = gamePanel.Q<ProgressBar>("ProgressBar");
+        gameProgressBarTimer = gamePanel.Q<Label>("ProgressBar-Timer");
 
         //EndGame-Panel
         endGamePanelRoundLabel = endGamePanel.Q<Label>("EndGame-Panel-Round-Label");
@@ -284,6 +295,7 @@ public class UIController : MonoBehaviour
     {
         UpdateRoundLabel();
         RefreshAllPlayerUIs();
+        StartProgressBarFill();
     }
 
     void UpdateRoundLabel()
@@ -294,6 +306,7 @@ public class UIController : MonoBehaviour
 
     void OnAllCardsOpenedEvent()
     {
+        StopProgressBarFill();
         StartCoroutine(GoToNextPanelInSeconds(endGamePanel, 1f));
     }
 
@@ -444,5 +457,52 @@ public class UIController : MonoBehaviour
             endGamePlayer2ScoreBox.RemoveFromClassList("disabledPlayerUI");
             endGamePlayer2Label.RemoveFromClassList("disabledPlayerText");
         }
+    }
+
+    //ProgressBar process
+
+    void Update()
+    {
+        if (isProgressBarFilling)
+        {
+            gameProgressBar.value = Mathf.Clamp(gameProgressBar.value + progressBarFillSpeed * Time.deltaTime, 0f, 100f);
+            progressBarRemainingTime = progressBarFillTime - (gameProgressBar.value / 100f) * progressBarFillTime;
+            gameProgressBarTimer.text = FormatTime(progressBarRemainingTime);
+
+            if (gameProgressBar.value >= 100f)
+            {
+                OnProgressBarFilled();
+                isProgressBarFilling = false;
+            }
+        }
+    }
+
+    void StartProgressBarFill()
+    {
+        progressBarFillTime = playerManager.RoundTime * 60;
+        progressBarFillSpeed = 100f / progressBarFillTime;
+        gameProgressBar.value = 0f;
+        isProgressBarFilling = true;
+    }
+
+    void OnProgressBarFilled()
+    {
+        playerManager.FinishTheRound();
+        StartCoroutine(GoToNextPanelInSeconds(endGamePanel, 1f));
+    }
+
+    void StopProgressBarFill()
+    {
+        isProgressBarFilling = false;
+    }
+
+    string FormatTime(float seconds)
+    {
+        var minutes = Mathf.FloorToInt(seconds / 60f);
+        var remainingSeconds = Mathf.FloorToInt(seconds % 60f);
+
+        var formattedTime = string.Format("{0:00}:{1:00}", minutes, remainingSeconds);
+
+        return formattedTime;
     }
 }

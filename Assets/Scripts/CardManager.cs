@@ -31,6 +31,7 @@ public class CardManager : MonoBehaviour
 
     VisualElement gameplayPanel;
     List<CardItem> _currentCardItems;
+    CardItem _selectedCard;
     bool _isClickEnabled = true;
     int _currentSize;
     int _openedCardCount;
@@ -86,12 +87,12 @@ public class CardManager : MonoBehaviour
             {
                 _openedCardCount = 0;
                 playerManager.ResetPlayers();
-                Debug.Log("item cleaning");
                 gameplayPanel.Remove(item.VisualElement);
             }
         }
 
         UpdateRound();
+        ClearSelectedCard();
         OnRoundStarted?.Invoke();
 
         _currentCardItems = new();
@@ -116,6 +117,7 @@ public class CardManager : MonoBehaviour
     public void GoNextRound()
     {
         UpdateRound();
+        ClearSelectedCard();
         OnRoundStarted?.Invoke();
 
         _openedCardCount = 0;
@@ -134,22 +136,21 @@ public class CardManager : MonoBehaviour
         playerManager.PrepareForRound();
     }
 
-    CardItem selectedCard;
     public void OnCardSelected(CardItem cardItem)
     {
         if (!_isClickEnabled || cardItem.IsOpen) return;
 
         cardItem.Open();
 
-        if(selectedCard == null)
+        if(_selectedCard == null)
         {
-            selectedCard = cardItem;
+            _selectedCard = cardItem;
         }
         else
         {
-            CheckMatch(selectedCard, cardItem);
+            CheckMatch(_selectedCard, cardItem);
 
-            selectedCard = null;
+            _selectedCard = null;
         }
     }
 
@@ -223,5 +224,10 @@ public class CardManager : MonoBehaviour
     public bool IsClickEnabled()
     {
         return _isClickEnabled;
+    }
+
+    void ClearSelectedCard()
+    {
+        _selectedCard = null;
     }
 }

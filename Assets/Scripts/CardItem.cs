@@ -33,8 +33,8 @@ public class CardItem
         _iconHolder.style.backgroundImage = new StyleBackground(_itemData.CardSprite);
         _iconHolder.style.display = DisplayStyle.None;
 
-        TestClose(); //TEST
-        _iconHolder.style.display = DisplayStyle.Flex; //TEST
+        //TestClose(); //OPEN FOR QUICK TEST
+        //_iconHolder.style.display = DisplayStyle.Flex; //OPEN FOR QUICK TEST
     }
 
     public void UpdateCardData(CardItemData cardItemData)
@@ -56,7 +56,6 @@ public class CardItem
 
     void OnCardItemClicked(ClickEvent e)
     {
-        //Open();
         CardManager.Instance.OnCardSelected(this);
     }
 
@@ -66,21 +65,20 @@ public class CardItem
         _cardBackground.style.backgroundImage = new StyleBackground(_frontOfCard);
         _iconHolder.style.display = DisplayStyle.Flex;
 
-        //test
-        _iconHolder.style.width = 150;
-        _iconHolder.style.height = 150;
+        //_iconHolder.style.width = 150; //OPEN FOR QUICK TEST
+        //_iconHolder.style.height = 150; //OPEN FOR QUICK TEST
     }
 
     public void Close()
     {
-        TestClose();
-        return;
+        //TestClose(); //OPEN FOR QUICK TEST
+        //return; //OPEN FOR QUICK TEST
         _isOpen = false;
         _cardBackground.style.backgroundImage = new StyleBackground(_backOfCard);
         _iconHolder.style.display = DisplayStyle.None;
     }
 
-    public void TestClose()
+    public void TestClose() //OPEN FOR QUICK TEST
     {
         _isOpen = false;
         _cardBackground.style.backgroundImage = new StyleBackground(_backOfCard);

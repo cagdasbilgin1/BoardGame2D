@@ -19,6 +19,8 @@ public class PlayerManager : MonoBehaviour
     public int CurrentRound => _currentRound;
     public int TotalRound => _totalRound;
 
+    public int RoundTime => _roundTime;
+
     public event Action<int, int> OnAnyPlayersPointIncreased;
     public event Action<bool> OnPlayerTurnChangedIsPlayer1Turn;    
 
@@ -51,6 +53,11 @@ public class PlayerManager : MonoBehaviour
     }
 
     void OnAllCardsOpenedEvent()
+    {
+        FinishTheRound();
+    }
+
+    public void FinishTheRound()
     {
         IncreaseWinnerScore();
         ResetPoints();
