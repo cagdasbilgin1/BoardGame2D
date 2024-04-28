@@ -1,24 +1,31 @@
 .time-progress-bar {
-
 }
 
-.unity-progress-bar__container{
-	height: 32px;
+.unity-progress-bar__container {
+    height: 32px;
 }
 
-.unity-progress-bar__background{
-	background-color: #8991ea;
-	border-radius: 18px;
-	padding: 0;
-	margin: 0;
-	min-height: 36px;
-	height: 100%;
+.unity-progress-bar__background {
+    background-color: rgb(137, 145, 234);
+    border-radius: 18px;
+    padding: 0;
+    margin: 0;
+    min-height: 36px;
+    height: 100%;
 }
 
-.unity-progress-bar__progress{
-	background-color: #484592;
-	border-radius: 18px;
-	padding: 0;
-	margin: 0;
-	height: 100%;
+.unity-progress-bar__progress {
+    background-color: rgb(72, 69, 146);
+    border-radius: 18px;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.disabledPlayerUI {
+    -unity-background-image-tint-color: rgb(195, 197, 229);
+}
+
+.disabledPlayerText {
+    color: rgba(255, 255, 255, 0.4);
 }
